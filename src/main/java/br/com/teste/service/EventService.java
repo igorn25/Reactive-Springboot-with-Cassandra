@@ -36,13 +36,15 @@ public class EventService {
         return eventRepository.findByKeyEventNameAndKeyClientId(key.getEventName(),key.getClientId());
     }
 
-    public void updateEvent(Event newEvent) {
-        Mono<Event> monoEvent = eventRepository.findById(newEvent.getKey());
-        if(monoEvent.blockOptional().isPresent()){
-            Event event = monoEvent.blockOptional().get();
-            event.setDomain(newEvent.getDomain());
-            eventRepository.save(event).subscribe();
-        }
+    public void updateEvent(Event updatedEvent) {
+//        Mono<Event> monoEvent = eventRepository.findById(newEvent.getKey());
+//        if(monoEvent.blockOptional().isPresent()){
+//            Event event = monoEvent.blockOptional().get();
+//            event.setDomain(newEvent.getDomain());
+//            eventRepository.save(event).subscribe();
+//        }
+
+        eventRepository.save(updatedEvent).subscribe();
 
     }
 
