@@ -33,6 +33,9 @@ public class EventService {
     }
 
     public Mono<Event>findById(EventKey key) {
+
+        eventRepository.findByKeyEventNameAndKeyClientId(key.getEventName(),key.getClientId());
+
         return eventRepository.findByKeyEventNameAndKeyClientId(key.getEventName(),key.getClientId());
     }
 
@@ -43,7 +46,6 @@ public class EventService {
 //            event.setDomain(newEvent.getDomain());
 //            eventRepository.save(event).subscribe();
 //        }
-
         eventRepository.save(updatedEvent).subscribe();
 
     }
@@ -53,9 +55,13 @@ public class EventService {
 
     }
 
-    public EventKey getPK(String pkString){
-        String[] idPk = pkString.split(",");
+    private EventKey getPK(String pkString){
+        String[] idPk = pkString.split("-");
         return new EventKey(idPk[0],idPk[1]);
 
+    }
+
+    public Mono<Event> findById(String key) {
+        return findById(getPK(key));
     }
 }

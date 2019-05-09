@@ -8,7 +8,7 @@ import org.springframework.data.cassandra.core.mapping.Table;
 import java.io.Serializable;
 import java.util.UUID;
 
-@Table()
+@Table
 public class Event implements Serializable {
 
     @PrimaryKey
@@ -18,6 +18,12 @@ public class Event implements Serializable {
     private String domain;
 
     public Event() {
+    }
+
+    public Event(EventKey key, UUID event_id, String domain) {
+        this.key = key;
+        this.event_id = event_id;
+        this.domain = domain;
     }
 
     public UUID getEvent_id() {
