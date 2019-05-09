@@ -2,7 +2,7 @@ package br.com.teste.controller;
 
 import br.com.teste.model.Event;
 import br.com.teste.model.EventKey;
-import br.com.teste.service.EventService;
+import br.com.teste.service.EventServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,7 +15,7 @@ import reactor.core.publisher.Mono;
 public class EventController {
 
     @Autowired
-    EventService eventService;
+    EventServiceImpl eventServiceImpl;
 
     @GetMapping("/isAlive")
     public String isAlive(){
@@ -23,32 +23,32 @@ public class EventController {
     }
 
     @PostMapping
-    public void createEvent(@RequestBody Event event){
-        eventService.createEvent(event);
+    public Mono<Event> createEvent(@RequestBody Event event){
+       return eventServiceImpl.createEvent(event);
     }
 
     @GetMapping
     public Flux<Event> findAllEvents(){
-        return eventService.findAll();
+        return eventServiceImpl.findAll();
     }
 
     @GetMapping("/findOne")
     public Mono<Event> findById(@RequestBody EventKey key){
-        return eventService.findById(key);
+        return eventServiceImpl.findById(key);
     }
 
     @GetMapping("/findOne/{key}")
-    public Mono<Event> findById(@PathVariable String key){return eventService.findById(key);}
+    public Mono<Event> findById(@PathVariable String key){return eventServiceImpl.findById(key);}
 
     @PutMapping
     public void updateEvent(@RequestBody Event event){
-        eventService.updateEvent(event);
+        eventServiceImpl.updateEvent(event);
     }
 
     @DeleteMapping
     public ResponseEntity<String> deleteEvent(@RequestBody EventKey key){
             try{
-                eventService.deleteEvent(key);
+                eventServiceImpl.deleteEvent(key);
             }catch (Exception e){
                 return new ResponseEntity<>( HttpStatus.EXPECTATION_FAILED);
             }
